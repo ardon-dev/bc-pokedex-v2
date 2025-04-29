@@ -2,6 +2,7 @@ package com.ardondev.pokeapi
 
 import android.app.Application
 import com.ardondev.core.di.ktorModule
+import com.ardondev.data.di.repositoryModule
 import com.ardondev.domain.di.useCaseModule
 import org.koin.core.context.startKoin
 
@@ -15,7 +16,7 @@ class App: Application() {
 
     private fun setupDependencyInjection() {
         startKoin {
-            modules(listOf(ktorModule, useCaseModule))
+            modules(listOf(ktorModule, repositoryModule, useCaseModule))
         }
     }
 
