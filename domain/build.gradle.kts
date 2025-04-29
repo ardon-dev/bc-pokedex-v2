@@ -12,6 +12,11 @@ kotlin {
     }
 }
 dependencies {
+    // Kotlin
     implementation(kotlin("stdlib"))
     implementation(libs.kotlinx.coroutines.core)
+
+    // Koin
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
 }

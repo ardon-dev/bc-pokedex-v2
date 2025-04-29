@@ -1,4 +1,4 @@
-package com.ardondev.domain.usecase
+package com.ardondev.domain.useCase
 
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.repository.PokemonRepository
