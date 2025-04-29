@@ -1,13 +1,17 @@
 package com.ardondev.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class PokemonListResponse(
-    val count: Int = 0,
-    val next: String = "",
-    val previous: Any = Any(),
-    val results: List<PokemonListResult> = listOf()
+    val count: Int? = 0,
+    val next: String? = "",
+    val previous: String? = "",
+    val results: List<PokemonListResult>? = listOf()
 )
 
+@Serializable
 data class PokemonListResult(
-    val name: String = "",
-    val url: String = ""
+    val name: String? = "",
+    val url: String? = ""
 )

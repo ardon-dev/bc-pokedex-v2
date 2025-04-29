@@ -1,4 +1,4 @@
-package com.ardondev.pokeapi.ui.theme
+package com.ardondev.pokeapi.theme
 
 import androidx.compose.ui.graphics.Color
 

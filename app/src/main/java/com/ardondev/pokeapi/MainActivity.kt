@@ -11,7 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ardondev.pokeapi.ui.theme.PokeapiTheme
+import com.ardondev.pokeapi.feature.pokemonList.PokemonListScreen
+import com.ardondev.pokeapi.theme.PokeapiTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokeapiTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                   PokemonListScreen()
                 }
             }
         }

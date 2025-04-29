@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 val ktorModule = module {
 
-    fun baseUrl(): String = ""
+    fun baseUrl(): String = "https://pokeapi.co/api/v2"
 
     fun ktorClient(): HttpClient {
         return HttpClient(OkHttp) {
