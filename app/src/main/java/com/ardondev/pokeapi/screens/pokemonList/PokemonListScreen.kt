@@ -1,4 +1,4 @@
-package com.ardondev.pokeapi.feature.pokemonList
+package com.ardondev.pokeapi.screens.pokemonList
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,23 +31,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.pokeapi.R
 import com.ardondev.pokeapi.components.AppSearchBar
 import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCard
+import com.ardondev.pokeapi.screens.PokemonDetailRoute
 import com.ardondev.pokeapi.theme.DarkBlue
 import com.ardondev.pokeapi.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PokemonListScreen(
-    viewModel: PokemonListViewModel = koinViewModel()
+    viewModel: PokemonListViewModel = koinViewModel(),
+    navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
     PokemonListContent(
         uiState = uiState,
-        searchText = viewModel.searchText
+        searchText = viewModel.searchText,
+        onPokemonClick = { id ->
+            navController.navigate(
+                PokemonDetailRoute(id)
+            )
+        }
     )
 }
 
@@ -70,7 +78,8 @@ fun PokemonListTopBar() {
 @Composable
 private fun PokemonListContent(
     uiState: UiState<List<Pokemon>>,
-    searchText: MutableState<String>
+    searchText: MutableState<String>,
+    onPokemonClick: (id: Int) -> Unit
 ) {
     Scaffold(
         topBar = { PokemonListTopBar() },
@@ -84,7 +93,8 @@ private fun PokemonListContent(
                     is UiState.Loading -> LinearProgressIndicator()
                     is UiState.Success -> PokemonList(
                         list = uiState.data,
-                        searchText = searchText
+                        searchText = searchText,
+                        onPokemonClick = { onPokemonClick(it) }
                     )
 
                     is UiState.Error -> Box { Text(uiState.message) }
@@ -98,6 +108,7 @@ private fun PokemonListContent(
 private fun PokemonList(
     list: List<Pokemon>,
     searchText: MutableState<String>,
+    onPokemonClick: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -132,7 +143,10 @@ private fun PokemonList(
                 items = list.filter { it.name.contains(searchText.value) },
                 key = { e -> e.id }
             ) { pokemon ->
-                PokemonCard(pokemon)
+                PokemonCard(
+                    pokemon = pokemon,
+                    onClick = { onPokemonClick(pokemon.id) }
+                )
             }
         }
     }
@@ -165,5 +179,5 @@ fun PokemonListContentPreview() {
     val uiState: UiState<List<Pokemon>> = UiState.Success(listOf(Pokemon(name = "1"), Pokemon(name = "2")))
     //val uiState: UiState<List<Pokemon>> = UiState.Error("Error")
     //val uiState: UiState<List<Pokemon>> = UiState.Loading
-    PokemonListContent(uiState, searchText)
+    PokemonListContent(uiState, searchText, onPokemonClick = {})
 }

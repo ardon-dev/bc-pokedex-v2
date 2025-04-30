@@ -30,6 +30,7 @@ import com.ardondev.pokeapi.theme.CardTitleStyle
 @Composable
 fun PokemonCard(
     pokemon: Pokemon,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -37,6 +38,7 @@ fun PokemonCard(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth(),
     ) {
@@ -93,6 +95,7 @@ private fun PokemonCardImage(url: String) {
 @Composable
 fun PokemonCardPreview() {
     PokemonCard(
+        onClick = {},
         pokemon = Pokemon(
             id = 25,
             name = "Pikachu",

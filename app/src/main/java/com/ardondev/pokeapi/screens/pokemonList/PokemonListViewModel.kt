@@ -1,4 +1,4 @@
-package com.ardondev.pokeapi.feature.pokemonList
+package com.ardondev.pokeapi.screens.pokemonList
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
