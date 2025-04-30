@@ -43,6 +43,11 @@ val TitlePokemonNameStyle = Typography.titleMedium.copy(
     fontWeight = FontWeight.Bold
 )
 
+val TitlePokemonNumberStyle = Typography.titleMedium.copy(
+    color = AlternativeGray,
+    fontWeight = FontWeight.Bold
+)
+
 val CardHeadlineStyle = Typography.bodyMedium.copy(
     color = Gray,
     fontWeight = FontWeight.Normal

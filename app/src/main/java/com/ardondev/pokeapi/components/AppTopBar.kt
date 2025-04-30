@@ -20,12 +20,14 @@ fun AppTopBar(
     modifier: Modifier = Modifier,
     title: String,
     titleStyle: TextStyle,
-    leading: @Composable () -> Unit = {}
+    leading: @Composable () -> Unit = {},
+    trailing: @Composable () -> Unit = {}
 ) {
     TopAppBar(
         modifier = modifier,
         title = { AppTopBarTitle(title, titleStyle) },
-        navigationIcon = leading
+        navigationIcon = leading,
+        actions = { trailing() }
     )
 }
 
