@@ -29,7 +29,10 @@ class MainActivity : ComponentActivity() {
                     }
                     composable<PokemonDetailRoute> { backStackEntry ->
                         val route: PokemonDetailRoute = backStackEntry.toRoute()
-                        PokemonDetailScreen(route.id)
+                        PokemonDetailScreen(
+                            id = route.id,
+                            navController = navController
+                        )
                     }
                 }
             }

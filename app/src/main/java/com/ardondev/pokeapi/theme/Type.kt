@@ -33,8 +33,13 @@ val Typography = Typography(
     */
 )
 
-val TitleStyle = Typography.headlineMedium.copy(
+val TitleStyle = Typography.titleMedium.copy(
     color = Accent,
+    fontWeight = FontWeight.Bold
+)
+
+val TitlePokemonNameStyle = Typography.titleMedium.copy(
+    color = NightBlue,
     fontWeight = FontWeight.Bold
 )
 

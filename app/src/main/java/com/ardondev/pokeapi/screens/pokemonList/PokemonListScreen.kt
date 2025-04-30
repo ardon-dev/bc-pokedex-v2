@@ -39,6 +39,7 @@ import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCard
 import com.ardondev.pokeapi.screens.PokemonDetailRoute
 import com.ardondev.pokeapi.theme.DarkBlue
+import com.ardondev.pokeapi.theme.TitleStyle
 import com.ardondev.pokeapi.util.UiState
 import org.koin.androidx.compose.koinViewModel
 
@@ -64,6 +65,7 @@ fun PokemonListTopBar() {
     AppTopBar(
         modifier = Modifier.fillMaxWidth(),
         title = "Pokédex",
+        titleStyle = TitleStyle,
         leading = {
             Image(
                 painter = painterResource(R.drawable.ic_pokeball),
