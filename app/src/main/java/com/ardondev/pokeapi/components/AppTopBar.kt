@@ -28,7 +28,7 @@ fun AppTopBar(
 }
 
 @Composable
-fun AppTopBarTitle(text: String) {
+private fun AppTopBarTitle(text: String) {
     Text(text, style = TitleStyle)
 }
 
@@ -42,7 +42,7 @@ fun AppTopBarPreview() {
                 painter = painterResource(R.drawable.ic_pokeball),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(end = 16.dp)
+                    .padding(horizontal = 16.dp)
             )
         }
     )
