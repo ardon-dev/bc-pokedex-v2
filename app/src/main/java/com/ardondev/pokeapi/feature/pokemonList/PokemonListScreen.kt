@@ -123,14 +123,14 @@ private fun PokemonList(
 
         // List
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 150.dp),
+            columns = GridCells.Fixed(count = 2),
             contentPadding = PaddingValues(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(
-                items = list,
-                key = { e -> e.name }
+                items = list.filter { it.name.contains(searchText.value) },
+                key = { e -> e.id }
             ) { pokemon ->
                 PokemonCard(pokemon)
             }
