@@ -3,7 +3,7 @@ package com.ardondev.data.repository
 import com.ardondev.core.network.ApiError
 import com.ardondev.core.network.ApiErrorMapper
 import com.ardondev.core.network.Endpoint
-import com.ardondev.data.mappers.toPokemon
+import com.ardondev.data.mappers.toDomain
 import com.ardondev.data.model.PokemonListResponse
 import com.ardondev.domain.repository.PokemonRepository
 import io.ktor.client.HttpClient
@@ -24,7 +24,7 @@ class PokemonRepositoryImpl(
         if (results.isNullOrEmpty()) {
             throw ApiError(400, "Not found.")
         }
-        emit(results.map { it.toPokemon() })
+        emit(results.map { it.toDomain() })
     }.catch { e ->
         throw ApiErrorMapper.map(e)
     }

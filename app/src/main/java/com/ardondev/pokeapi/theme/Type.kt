@@ -44,6 +44,6 @@ val CardHeadlineStyle = Typography.bodyMedium.copy(
 )
 
 val CardTitleStyle = Typography.titleMedium.copy(
-    color = Gray,
-    fontWeight = FontWeight.Normal
+    color = NightBlue,
+    fontWeight = FontWeight.Bold
 )
