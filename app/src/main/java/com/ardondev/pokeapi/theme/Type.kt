@@ -32,3 +32,18 @@ val Typography = Typography(
     )
     */
 )
+
+val TitleStyle = Typography.headlineMedium.copy(
+    color = Accent,
+    fontWeight = FontWeight.Bold
+)
+
+val CardHeadlineStyle = Typography.bodyMedium.copy(
+    color = Gray,
+    fontWeight = FontWeight.Normal
+)
+
+val CardTitleStyle = Typography.titleMedium.copy(
+    color = Gray,
+    fontWeight = FontWeight.Normal
+)
