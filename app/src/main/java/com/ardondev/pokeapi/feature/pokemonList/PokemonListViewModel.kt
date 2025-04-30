@@ -1,11 +1,11 @@
 package com.ardondev.pokeapi.feature.pokemonList
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.useCase.GetAllPokemonUseCase
 import com.ardondev.pokeapi.util.UiState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +17,10 @@ import kotlinx.coroutines.launch
 class PokemonListViewModel(
     private val getAllPokemonUseCase: GetAllPokemonUseCase
 ) : ViewModel() {
+
+    /* Search */
+
+    val searchText = mutableStateOf("")
 
     /* Pokemon list */
 

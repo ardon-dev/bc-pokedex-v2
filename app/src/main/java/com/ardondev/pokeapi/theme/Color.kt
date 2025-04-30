@@ -12,4 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val Accent = Color(0xFF005FFF)
 val Gray = Color(0xFFAAAAAA)
+val DarkGray = Color(0xFF404040)
 val NightBlue = Color(0xFF01426A)
+val DarkBlue = Color(0xFF01243A)
+val Yellow = Color(0xFFFFC600)
