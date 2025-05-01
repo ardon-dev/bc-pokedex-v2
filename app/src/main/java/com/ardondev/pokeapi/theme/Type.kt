@@ -33,8 +33,18 @@ val Typography = Typography(
     */
 )
 
-val TitleStyle = Typography.headlineMedium.copy(
+val TitleStyle = Typography.titleMedium.copy(
     color = Accent,
+    fontWeight = FontWeight.Bold
+)
+
+val TitlePokemonNameStyle = Typography.titleMedium.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Bold
+)
+
+val TitlePokemonNumberStyle = Typography.titleMedium.copy(
+    color = AlternativeGray,
     fontWeight = FontWeight.Bold
 )
 
@@ -46,4 +56,14 @@ val CardHeadlineStyle = Typography.bodyMedium.copy(
 val CardTitleStyle = Typography.titleMedium.copy(
     color = NightBlue,
     fontWeight = FontWeight.Bold
+)
+
+val CharacteristicLabelStyle = Typography.labelMedium.copy(
+    color = SkyBlue,
+    fontWeight = FontWeight.Light
+)
+
+val SectionTitleStyle = Typography.titleLarge.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Black
 )

@@ -3,8 +3,14 @@ package com.ardondev.data.repository
 import com.ardondev.core.network.ApiError
 import com.ardondev.core.network.ApiErrorMapper
 import com.ardondev.core.network.Endpoint
-import com.ardondev.data.mappers.toDomain
+import com.ardondev.core.network.routeWithParams
+import com.ardondev.data.mappers.toPokemon
+import com.ardondev.data.mappers.toSpecie
 import com.ardondev.data.model.PokemonListResponse
+import com.ardondev.data.model.PokemonResponse
+import com.ardondev.data.model.SpeciesResponse
+import com.ardondev.domain.model.Pokemon
+import com.ardondev.domain.model.Specie
 import com.ardondev.domain.repository.PokemonRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -24,9 +30,19 @@ class PokemonRepositoryImpl(
         if (results.isNullOrEmpty()) {
             throw ApiError(400, "Not found.")
         }
-        emit(results.map { it.toDomain() })
+        emit(results.map { it.toPokemon() })
     }.catch { e ->
         throw ApiErrorMapper.map(e)
+    }
+
+    override suspend fun fetchPokemon(id: Int): Pokemon {
+        val url = baseUrl + Endpoint.POKEMON.routeWithParams("id" to id)
+        return ktorClient.get(url).body<PokemonResponse>().toPokemon()
+    }
+
+    override suspend fun fetchSpecie(id: Int): Specie {
+        val url = baseUrl + Endpoint.SPECIES.routeWithParams("id" to id)
+        return ktorClient.get(url).body<SpeciesResponse>().toSpecie()
     }
 
 }

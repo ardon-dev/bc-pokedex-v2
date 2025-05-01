@@ -17,6 +17,7 @@ ktor = "3.1.2"
 firebaseCrashlyticsBuildtools = "3.0.3"
 serialization = "1.8.0"
 coil = "3.1.0"
+navigation = "2.8.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "fireb
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
