@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -34,6 +35,7 @@ import com.ardondev.pokeapi.R
 import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCharacteristic
 import com.ardondev.pokeapi.components.PokemonContainer
+import com.ardondev.pokeapi.theme.BodyTextGray
 import com.ardondev.pokeapi.theme.Divider
 import com.ardondev.pokeapi.theme.NightBlue
 import com.ardondev.pokeapi.theme.TitlePokemonNameStyle
@@ -86,6 +88,8 @@ fun PokemonDetailContent(
                             weight = pokemon.weight,
                             height = pokemon.height
                         )
+                        Spacer(Modifier.height(16.dp))
+                        PokemonDetailDescription(pokemon.description)
                     }
                 }
             }
@@ -138,6 +142,17 @@ private fun PokemonDetailCharacteristics(
 }
 
 @Composable
+fun PokemonDetailDescription(description: String) {
+    Text(
+        text = description,
+        style = MaterialTheme.typography.bodyMedium.copy(
+            color = BodyTextGray
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
 private fun PokemonDetailTopBar(
     pokemonName: String,
     pokemonId: Int,
@@ -174,7 +189,8 @@ fun PokemonDetailScreenPreview() {
             name = "Pikachu",
             types = listOf(Type("Electric")),
             height = 7,
-            weight = 900
+            weight = 900,
+            description = "Sample description"
         )
     )
     PokemonDetailContent(uiState, onBack = {})
