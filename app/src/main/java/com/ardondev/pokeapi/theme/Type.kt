@@ -62,3 +62,8 @@ val CharacteristicLabelStyle = Typography.labelMedium.copy(
     color = SkyBlue,
     fontWeight = FontWeight.Light
 )
+
+val SectionTitleStyle = Typography.titleLarge.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Black
+)

@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Card
@@ -30,17 +33,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ardondev.domain.model.Pokemon
+import com.ardondev.domain.model.Stat
 import com.ardondev.domain.model.Type
 import com.ardondev.pokeapi.R
 import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCharacteristic
 import com.ardondev.pokeapi.components.PokemonContainer
+import com.ardondev.pokeapi.components.PokemonStat
 import com.ardondev.pokeapi.theme.BodyTextGray
 import com.ardondev.pokeapi.theme.Divider
 import com.ardondev.pokeapi.theme.NightBlue
+import com.ardondev.pokeapi.theme.SectionTitleStyle
+import com.ardondev.pokeapi.theme.SkyBlue
 import com.ardondev.pokeapi.theme.TitlePokemonNameStyle
 import com.ardondev.pokeapi.theme.TitlePokemonNumberStyle
 import com.ardondev.pokeapi.util.UiState
+import com.ardondev.pokeapi.util.getColor
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -69,6 +77,7 @@ fun PokemonDetailContent(
         is UiState.Loading -> LinearProgressIndicator()
         is UiState.Success -> {
             val pokemon = uiState.data
+            val primaryColor = pokemon.types.firstOrNull()?.getColor() ?: SkyBlue
             Scaffold(
                 topBar = {
                     PokemonDetailTopBar(
@@ -90,6 +99,11 @@ fun PokemonDetailContent(
                         )
                         Spacer(Modifier.height(16.dp))
                         PokemonDetailDescription(pokemon.description)
+                        Spacer(Modifier.height(16.dp))
+                        PokemonDetailStats(
+                            stats = pokemon.stats,
+                            color = primaryColor
+                        )
                     }
                 }
             }
@@ -142,7 +156,7 @@ private fun PokemonDetailCharacteristics(
 }
 
 @Composable
-fun PokemonDetailDescription(description: String) {
+private fun PokemonDetailDescription(description: String) {
     Text(
         text = description,
         style = MaterialTheme.typography.bodyMedium.copy(
@@ -181,6 +195,37 @@ private fun PokemonDetailTopBar(
     )
 }
 
+@Composable
+private fun PokemonDetailStats(
+    stats: List<Stat>,
+    color: Color
+) {
+    Column {
+        // Title
+        Text(
+            text = "Estadísticas",
+            style = SectionTitleStyle
+        )
+        Spacer(Modifier.size(8.dp))
+
+        // Stats
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(
+                items = stats,
+                key = { s -> s.name }
+            ) { stat ->
+                PokemonStat(
+                    label = stat.formattedName(),
+                    value = stat.baseStat,
+                    color = color
+                )
+            }
+         }
+    }
+}
+
 @Preview
 @Composable
 fun PokemonDetailScreenPreview() {
@@ -190,7 +235,10 @@ fun PokemonDetailScreenPreview() {
             types = listOf(Type("Electric")),
             height = 7,
             weight = 900,
-            description = "Sample description"
+            description = "Sample description",
+            stats = listOf(
+                Stat("hp", baseStat = 35)
+            )
         )
     )
     PokemonDetailContent(uiState, onBack = {})
