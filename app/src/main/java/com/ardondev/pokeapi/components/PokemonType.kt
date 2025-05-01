@@ -10,13 +10,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ardondev.domain.model.Type
 import com.ardondev.pokeapi.theme.Yellow
 import com.ardondev.pokeapi.theme.lighten
+import com.ardondev.pokeapi.util.getLabel
 
 @Composable
 fun PokemonType(type: Type, color: Color) {
     FilterChip(
         selected = false,
         onClick = {},
-        label = { Text(type.name, color = color) },
+        label = {
+            Text(
+                text = type.getLabel(),
+                color = color
+            )
+        },
         shape = CircleShape,
         colors = FilterChipDefaults.filterChipColors(
             containerColor = color.lighten(0.8f)
@@ -33,5 +39,5 @@ fun PokemonType(type: Type, color: Color) {
 @Preview
 @Composable
 fun PokemonTypePreview() {
-    PokemonType(Type("Fire"), Yellow)
+    PokemonType(Type("fire"), Yellow)
 }

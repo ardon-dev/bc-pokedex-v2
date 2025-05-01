@@ -29,3 +29,29 @@ fun Type.getColor(): Color {
     }
     return color
 }
+
+fun Type.getLabel(): String {
+    return when (this.name) {
+        "normal" -> "\uD83D\uDD18 Normal"
+        "fighting" -> "\uD83E\uDD4A Lucha"
+        "flying" -> "\uD83E\uDEBD Volador"
+        "poison" -> "☠\uFE0F Veneno"
+        "ground" -> "⛰\uFE0F Tierra"
+        "rock" -> "\uD83E\uDEA8 Roca"
+        "bug" -> "\uD83E\uDEB2 Bicho"
+        "ghost" -> "\uD83D\uDC7B Fantasma"
+        "steel" -> "⚙\uFE0F Acero"
+        "fire" -> "\uD83D\uDD25 Fuego"
+        "water" -> "\uD83C\uDF0A Agua"
+        "grass" -> "\uD83C\uDF3F Planta"
+        "electric" -> "⚡ Eléctrico"
+        "psychic" -> "\uD83D\uDC41\uFE0F Psíquico"
+        "ice" -> "❄\uFE0F Hielo"
+        "dragon" -> "\uD83D\uDC32 Dragón"
+        "dark" -> "\uD83C\uDF11 Siniestro"
+        "fairy" -> "✨ Ada"
+        "stellar" -> "Estelar"
+        else -> this.name
+    }
+}
+
