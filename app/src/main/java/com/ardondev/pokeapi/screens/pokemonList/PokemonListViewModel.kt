@@ -29,7 +29,10 @@ class PokemonListViewModel(
 
     fun getAllPokemon() {
         viewModelScope.launch {
-            getAllPokemonUseCase()
+            getAllPokemonUseCase(
+                offset = 0,
+                limit = 1000
+            )
                 .onEach { list -> _uiState.value = UiState.Success(list) }
                 .catch { e -> _uiState.value = UiState.Error(e.message.orEmpty()) }
                 .collect()
