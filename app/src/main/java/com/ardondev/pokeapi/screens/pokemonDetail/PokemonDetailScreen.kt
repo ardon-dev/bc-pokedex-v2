@@ -29,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -51,6 +52,7 @@ import com.ardondev.pokeapi.util.UiState
 import com.ardondev.pokeapi.util.getColor
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
+import java.util.Locale
 
 @Composable
 fun PokemonDetailScreen(
@@ -173,7 +175,7 @@ private fun PokemonDetailTopBar(
     onBack: () -> Unit
 ) {
     AppTopBar(
-        title = pokemonName,
+        title = pokemonName.replaceFirstChar { it.uppercaseChar() },
         titleStyle = TitlePokemonNameStyle,
         leading = {
             IconButton(onClick = onBack) {
@@ -186,7 +188,7 @@ private fun PokemonDetailTopBar(
         },
         trailing = {
             Text(
-                "#$pokemonId",
+                text = String.format(Locale.getDefault(), "#%03d", pokemonId),
                 style = TitlePokemonNumberStyle,
                 modifier = Modifier
                     .padding(end = 16.dp)
@@ -222,7 +224,7 @@ private fun PokemonDetailStats(
                     color = color
                 )
             }
-         }
+        }
     }
 }
 

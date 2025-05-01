@@ -33,6 +33,7 @@ object PokemonColor {
     val Default = Color(0xFF005FFF)
 }
 
+val Background = Color(0xFFF8F8F8)
 val Accent = Color(0xFF005FFF)
 val Gray = Color(0xFFAAAAAA)
 val DarkGray = Color(0xFF404040)

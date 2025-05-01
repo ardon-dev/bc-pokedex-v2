@@ -26,6 +26,7 @@ import com.ardondev.domain.model.Pokemon
 import com.ardondev.pokeapi.R
 import com.ardondev.pokeapi.theme.CardHeadlineStyle
 import com.ardondev.pokeapi.theme.CardTitleStyle
+import java.util.Locale
 
 @Composable
 fun PokemonCard(
@@ -58,7 +59,7 @@ fun PokemonCard(
 @Composable
 private fun PokemonCardName(name: String) {
     Text(
-        text = name,
+        text = name.replaceFirstChar { it.uppercaseChar() },
         style = CardTitleStyle,
         textAlign = TextAlign.Center,
         modifier = Modifier.fillMaxWidth()
@@ -68,7 +69,7 @@ private fun PokemonCardName(name: String) {
 @Composable
 private fun PokemonCardNumber(number: Int) {
     Text(
-        text = "#${number}",
+        text = String.format(Locale.getDefault(), "#%03d", number),
         style = CardHeadlineStyle,
         textAlign = TextAlign.End,
         modifier = Modifier.fillMaxWidth(),
