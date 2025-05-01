@@ -19,7 +19,7 @@ fun PokemonType(type: Type, color: Color) {
         label = { Text(type.name, color = color) },
         shape = CircleShape,
         colors = FilterChipDefaults.filterChipColors(
-            containerColor = color.lighten(0.5f)
+            containerColor = color.lighten(0.8f)
         ),
         border = FilterChipDefaults.filterChipBorder(
             enabled = true,

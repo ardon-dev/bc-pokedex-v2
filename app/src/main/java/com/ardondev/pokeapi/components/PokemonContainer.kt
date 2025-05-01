@@ -38,7 +38,7 @@ fun PokemonContainer(pokemon: Pokemon) {
                 .fillMaxWidth()
                 .height(150.dp)
                 .background(
-                    color = pokemon.types[0].getColor().lighten(0.5f),
+                    color = pokemon.types[0].getColor().lighten(0.8f),
                     shape = MaterialTheme.shapes.medium
                 )
         )
