@@ -15,8 +15,10 @@ val Gray = Color(0xFFAAAAAA)
 val DarkGray = Color(0xFF404040)
 val AlternativeGray = Color(0xFF7C7C7C)
 val NightBlue = Color(0xFF01426A)
+val SkyBlue = Color(0xFF2C85BC)
 val DarkBlue = Color(0xFF01243A)
 val Yellow = Color(0xFFFFC600)
+val Divider = Color(0xFFD9D9D6)
 
 fun Color.darken(factor: Float): Color = copy(
     red = red * (1 - factor),

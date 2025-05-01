@@ -57,3 +57,8 @@ val CardTitleStyle = Typography.titleMedium.copy(
     color = NightBlue,
     fontWeight = FontWeight.Bold
 )
+
+val CharacteristicLabelStyle = Typography.labelMedium.copy(
+    color = SkyBlue,
+    fontWeight = FontWeight.Light
+)
