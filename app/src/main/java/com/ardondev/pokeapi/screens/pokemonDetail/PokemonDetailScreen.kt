@@ -1,6 +1,7 @@
 package com.ardondev.pokeapi.screens.pokemonDetail
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -13,13 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.pokeapi.components.AppTopBar
-import com.ardondev.pokeapi.theme.CardHeadlineStyle
+import com.ardondev.pokeapi.components.PokemonContainer
 import com.ardondev.pokeapi.theme.NightBlue
 import com.ardondev.pokeapi.theme.TitlePokemonNameStyle
 import com.ardondev.pokeapi.theme.TitlePokemonNumberStyle
@@ -61,7 +61,13 @@ fun PokemonDetailContent(
                     )
                 }
             ) { paddingValues ->
-
+                Box(Modifier.padding(paddingValues)) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        PokemonContainer(pokemon)
+                    }
+                }
             }
         }
 

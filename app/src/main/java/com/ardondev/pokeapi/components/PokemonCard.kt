@@ -40,7 +40,6 @@ fun PokemonCard(
         ),
         onClick = onClick,
         modifier = modifier
-            .fillMaxWidth(),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
