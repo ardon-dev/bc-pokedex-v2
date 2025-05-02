@@ -7,6 +7,7 @@ import com.ardondev.domain.model.AppError
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.useCase.GetAllPokemonUseCase
 import com.ardondev.pokeapi.util.UiState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,7 +29,11 @@ class PokemonListViewModel(
     private val _uiState = MutableStateFlow<UiState<List<Pokemon>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<Pokemon>>> = _uiState.asStateFlow()
 
-    private fun getAllPokemon() {
+    fun setUiState(value: UiState<List<Pokemon>>) {
+        _uiState.value = value
+    }
+
+    fun getAllPokemon() {
         viewModelScope.launch {
             getAllPokemonUseCase(
                 offset = 0,
@@ -38,7 +43,8 @@ class PokemonListViewModel(
                     _uiState.value = UiState.Success(list)
                 }
                 .catch { e ->
-                    _uiState.value = UiState.Error((e as AppError).message)
+                    delay(1000)
+                    _uiState.value = UiState.Error((e as AppError))
                 }
                 .collect()
         }

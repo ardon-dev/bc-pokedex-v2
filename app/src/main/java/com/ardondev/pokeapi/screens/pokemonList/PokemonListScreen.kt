@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,6 +36,8 @@ import com.ardondev.pokeapi.R
 import com.ardondev.pokeapi.components.AppSearchBar
 import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCard
+import com.ardondev.pokeapi.components.StatusError
+import com.ardondev.pokeapi.components.StatusLoading
 import com.ardondev.pokeapi.screens.PokemonDetailRoute
 import com.ardondev.pokeapi.theme.DarkBlue
 import com.ardondev.pokeapi.theme.TitleStyle
@@ -56,6 +57,10 @@ fun PokemonListScreen(
             navController.navigate(
                 PokemonDetailRoute(id)
             )
+        },
+        onRetry = {
+            viewModel.setUiState(UiState.Loading)
+            viewModel.getAllPokemon()
         }
     )
 }
@@ -81,7 +86,8 @@ fun PokemonListTopBar() {
 private fun PokemonListContent(
     uiState: UiState<List<Pokemon>>,
     searchText: MutableState<String>,
-    onPokemonClick: (id: Int) -> Unit
+    onPokemonClick: (id: Int) -> Unit,
+    onRetry: () -> Unit
 ) {
     Scaffold(
         topBar = { PokemonListTopBar() },
@@ -92,14 +98,18 @@ private fun PokemonListContent(
                     .padding(padding)
             ) {
                 when (uiState) {
-                    is UiState.Loading -> LinearProgressIndicator()
+                    is UiState.Loading -> StatusLoading()
                     is UiState.Success -> PokemonList(
                         list = uiState.data,
                         searchText = searchText,
                         onPokemonClick = { onPokemonClick(it) }
                     )
 
-                    is UiState.Error -> Box { Text(uiState.message) }
+                    is UiState.Error -> StatusError(
+                        error = uiState.error,
+                        retryButtonText = "Reintentar",
+                        onRetry = onRetry
+                    )
                 }
             }
         }
@@ -143,7 +153,8 @@ private fun PokemonList(
         ) {
             items(
                 items = list.filter {
-                    it.name.contains(searchText.value) || it.id.toString().contains(searchText.value)
+                    it.name.contains(searchText.value) || it.id.toString()
+                        .contains(searchText.value)
                 },
                 key = { e -> e.id }
             ) { pokemon ->
@@ -184,5 +195,5 @@ fun PokemonListContentPreview() {
         UiState.Success(listOf(Pokemon(name = "1"), Pokemon(name = "2")))
     //val uiState: UiState<List<Pokemon>> = UiState.Error("Error")
     //val uiState: UiState<List<Pokemon>> = UiState.Loading
-    PokemonListContent(uiState, searchText, onPokemonClick = {})
+    PokemonListContent(uiState, searchText, onPokemonClick = {}, onRetry = {})
 }

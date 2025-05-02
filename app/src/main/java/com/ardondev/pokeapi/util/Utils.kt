@@ -1,6 +1,11 @@
 package com.ardondev.pokeapi.util
 
+import android.content.Context
+import android.os.Build
 import androidx.compose.ui.graphics.Color
+import coil3.ImageLoader
+import coil3.gif.AnimatedImageDecoder
+import coil3.gif.GifDecoder
 import com.ardondev.domain.model.Type
 import com.ardondev.pokeapi.theme.PokemonColor
 
@@ -55,3 +60,14 @@ fun Type.getLabel(): String {
     }
 }
 
+fun getGifImageLoader(context: Context): ImageLoader {
+    return ImageLoader.Builder(context)
+        .components {
+            if (Build.VERSION.SDK_INT >= 28) {
+                add(AnimatedImageDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }
+        .build()
+}
