@@ -16,6 +16,6 @@ class GetAllPokemonUseCase(
     ): Flow<List<Pokemon>> = flow {
         val pokemonList = pokemonRepository.fetchAllPokemon(offset, limit)
         emit(pokemonList)
-    }.catch { e -> throw e }
+    }.catch { throw it }
 
 }

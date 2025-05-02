@@ -1,4 +1,4 @@
-package com.ardondev.data.model
+package com.ardondev.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

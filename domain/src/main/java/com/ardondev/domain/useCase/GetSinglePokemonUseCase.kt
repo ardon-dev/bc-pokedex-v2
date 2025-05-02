@@ -17,6 +17,6 @@ class GetSinglePokemonUseCase(
             pokemon = pokemon.copy(description = it.text)
         }
         emit(pokemon)
-    }.catch { e -> throw e }
+    }.catch { throw it }
 
 }

@@ -1,11 +1,11 @@
 package com.ardondev.data.mappers
 
-import com.ardondev.data.model.PokemonResponse
-import com.ardondev.data.model.PokemonResponseStat
-import com.ardondev.data.model.PokemonResponseType
-import com.ardondev.data.model.ResponseValue
-import com.ardondev.data.model.SpeciesResponse
-import com.ardondev.data.model.SpeciesResponseTextEntry
+import com.ardondev.data.remote.model.PokemonResponse
+import com.ardondev.data.remote.model.PokemonResponseStat
+import com.ardondev.data.remote.model.PokemonResponseType
+import com.ardondev.data.remote.model.ResponseValue
+import com.ardondev.data.remote.model.SpeciesResponse
+import com.ardondev.data.remote.model.SpeciesResponseTextEntry
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.model.Specie
 import com.ardondev.domain.model.Stat

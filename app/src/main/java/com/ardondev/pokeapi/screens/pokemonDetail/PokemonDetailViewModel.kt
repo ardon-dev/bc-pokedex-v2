@@ -2,6 +2,7 @@ package com.ardondev.pokeapi.screens.pokemonDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ardondev.domain.model.AppError
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.useCase.GetSinglePokemonUseCase
 import com.ardondev.pokeapi.util.UiState
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 class PokemonDetailViewModel(
     private val getSinglePokemonUseCase: GetSinglePokemonUseCase,
     private val id: Int
-): ViewModel() {
+) : ViewModel() {
 
     /* Pokemon */
 
@@ -27,7 +28,7 @@ class PokemonDetailViewModel(
         viewModelScope.launch {
             getSinglePokemonUseCase(id)
                 .onEach { pokemon -> _uiState.value = UiState.Success(pokemon) }
-                .catch { e -> _uiState.value = UiState.Error(e.message.orEmpty()) }
+                .catch { e -> _uiState.value = UiState.Error((e as AppError).message) }
                 .collect()
         }
     }
