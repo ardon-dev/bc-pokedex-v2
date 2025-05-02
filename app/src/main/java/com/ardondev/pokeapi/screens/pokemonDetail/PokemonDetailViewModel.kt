@@ -24,11 +24,15 @@ class PokemonDetailViewModel(
     private val _uiState = MutableStateFlow<UiState<Pokemon>>(UiState.Loading)
     val uiState: StateFlow<UiState<Pokemon>> = _uiState.asStateFlow()
 
+    fun setUiState(value: UiState<Pokemon>) {
+        _uiState.value = value
+    }
+
     fun getSinglePokemon() {
         viewModelScope.launch {
             getSinglePokemonUseCase(id)
                 .onEach { pokemon -> _uiState.value = UiState.Success(pokemon) }
-                .catch { e -> _uiState.value = UiState.Error((e as AppError).message) }
+                .catch { e -> _uiState.value = UiState.Error((e as AppError)) }
                 .collect()
         }
     }

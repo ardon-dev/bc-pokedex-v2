@@ -19,7 +19,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,7 +28,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -41,6 +39,8 @@ import com.ardondev.pokeapi.components.AppTopBar
 import com.ardondev.pokeapi.components.PokemonCharacteristic
 import com.ardondev.pokeapi.components.PokemonContainer
 import com.ardondev.pokeapi.components.PokemonStat
+import com.ardondev.pokeapi.components.StatusError
+import com.ardondev.pokeapi.components.StatusLoading
 import com.ardondev.pokeapi.theme.BodyTextGray
 import com.ardondev.pokeapi.theme.Divider
 import com.ardondev.pokeapi.theme.NightBlue
@@ -66,17 +66,22 @@ fun PokemonDetailScreen(
 
     PokemonDetailContent(
         uiState = uiState,
-        onBack = { navController.navigateUp() }
+        onBack = { navController.navigateUp() },
+        onRetry = {
+            viewModel.setUiState(UiState.Loading)
+            viewModel.getSinglePokemon()
+        }
     )
 }
 
 @Composable
 fun PokemonDetailContent(
     uiState: UiState<Pokemon>,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onRetry: () -> Unit
 ) {
     when (uiState) {
-        is UiState.Loading -> LinearProgressIndicator()
+        is UiState.Loading -> StatusLoading()
         is UiState.Success -> {
             val pokemon = uiState.data
             val primaryColor = pokemon.types.firstOrNull()?.getColor() ?: SkyBlue
@@ -111,7 +116,11 @@ fun PokemonDetailContent(
             }
         }
 
-        is UiState.Error -> Box { Text(uiState.message) }
+        is UiState.Error -> StatusError(
+            error = uiState.error,
+            retryButtonText = "Reintentar",
+            onRetry = onRetry
+        )
     }
 }
 
@@ -243,5 +252,5 @@ fun PokemonDetailScreenPreview() {
             )
         )
     )
-    PokemonDetailContent(uiState, onBack = {})
+    PokemonDetailContent(uiState, onBack = {}, onRetry = {})
 }

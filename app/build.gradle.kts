@@ -66,6 +66,7 @@ dependencies {
     // Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
+    implementation(libs.coil.gif)
 
     // Navigation
     implementation(libs.compose.navigation)

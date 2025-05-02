@@ -50,6 +50,7 @@ firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "fireb
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+coil-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 [plugins]
