@@ -1,5 +1,6 @@
 package com.ardondev.domain
 
+import com.ardondev.domain.model.AppError
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.repository.PokemonRepository
 import com.ardondev.domain.useCase.GetAllPokemonUseCase
@@ -28,34 +29,36 @@ class GetAllPokemonUseCaseTest {
 
     @Test
     fun `invoke should emit list of pokemon from repository`() = runTest {
+        // Given
         val expectedPokemon = listOf(
             Pokemon(1, "Bulbasaur"),
             Pokemon(2, "Ivysaur")
         )
 
+        // When
         `when`(repository.fetchAllPokemon(0, 2)).thenReturn(expectedPokemon)
-
         val result = getAllPokemonUseCase(0, 2).first()
         verify(repository).fetchAllPokemon(0, 2)
 
+        // Then
         assertEquals(expectedPokemon, result)
     }
 
     @Test
     fun `invoke should emit empty list when repository returns nothing`() = runTest {
+        // When
         `when`(repository.fetchAllPokemon(0, 2)).thenReturn(emptyList())
-
         val result = getAllPokemonUseCase(0, 2).first()
 
+        // Then
         assertTrue(result.isEmpty())
     }
 
-    @Test
-    fun `invoke should call repository exactly once`() = runTest {
-        `when`(repository.fetchAllPokemon(0, 2)).thenReturn(emptyList())
-
+    @Test(expected = Throwable::class)
+    fun `invoke should throw exception if fetchAllPokemon fails`() = runTest {
+        // When
+        `when`(repository.fetchAllPokemon(0, 2)).thenThrow(AppError(404, "404"))
         getAllPokemonUseCase(0, 2).first()
-
-        verify(repository, times(1)).fetchAllPokemon(0, 2)
     }
+
 }
