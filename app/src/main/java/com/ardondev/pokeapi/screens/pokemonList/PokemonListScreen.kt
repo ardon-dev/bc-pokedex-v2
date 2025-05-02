@@ -142,7 +142,9 @@ private fun PokemonList(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(
-                items = list.filter { it.name.contains(searchText.value) },
+                items = list.filter {
+                    it.name.contains(searchText.value) || it.id.toString().contains(searchText.value)
+                },
                 key = { e -> e.id }
             ) { pokemon ->
                 PokemonCard(
@@ -178,7 +180,8 @@ private fun PokemonListWelcomeText(
 @Composable
 fun PokemonListContentPreview() {
     val searchText = remember { mutableStateOf("") }
-    val uiState: UiState<List<Pokemon>> = UiState.Success(listOf(Pokemon(name = "1"), Pokemon(name = "2")))
+    val uiState: UiState<List<Pokemon>> =
+        UiState.Success(listOf(Pokemon(name = "1"), Pokemon(name = "2")))
     //val uiState: UiState<List<Pokemon>> = UiState.Error("Error")
     //val uiState: UiState<List<Pokemon>> = UiState.Loading
     PokemonListContent(uiState, searchText, onPokemonClick = {})

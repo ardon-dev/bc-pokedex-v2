@@ -3,6 +3,7 @@ package com.ardondev.pokeapi.screens.pokemonList
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ardondev.domain.model.AppError
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.domain.useCase.GetAllPokemonUseCase
 import com.ardondev.pokeapi.util.UiState
@@ -27,11 +28,18 @@ class PokemonListViewModel(
     private val _uiState = MutableStateFlow<UiState<List<Pokemon>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<Pokemon>>> = _uiState.asStateFlow()
 
-    fun getAllPokemon() {
+    private fun getAllPokemon() {
         viewModelScope.launch {
-            getAllPokemonUseCase()
-                .onEach { list -> _uiState.value = UiState.Success(list) }
-                .catch { e -> _uiState.value = UiState.Error(e.message.orEmpty()) }
+            getAllPokemonUseCase(
+                offset = 0,
+                limit = 1302
+            )
+                .onEach { list ->
+                    _uiState.value = UiState.Success(list)
+                }
+                .catch { e ->
+                    _uiState.value = UiState.Error((e as AppError).message)
+                }
                 .collect()
         }
     }
