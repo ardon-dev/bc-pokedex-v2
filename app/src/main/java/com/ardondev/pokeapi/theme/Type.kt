@@ -1,4 +1,4 @@
-package com.ardondev.pokeapi.ui.theme
+package com.ardondev.pokeapi.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -31,4 +31,39 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+val TitleStyle = Typography.titleMedium.copy(
+    color = Accent,
+    fontWeight = FontWeight.Bold
+)
+
+val TitlePokemonNameStyle = Typography.titleMedium.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Bold
+)
+
+val TitlePokemonNumberStyle = Typography.titleMedium.copy(
+    color = AlternativeGray,
+    fontWeight = FontWeight.Bold
+)
+
+val CardHeadlineStyle = Typography.bodyMedium.copy(
+    color = Gray,
+    fontWeight = FontWeight.Normal
+)
+
+val CardTitleStyle = Typography.titleMedium.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Bold
+)
+
+val CharacteristicLabelStyle = Typography.labelMedium.copy(
+    color = SkyBlue,
+    fontWeight = FontWeight.Light
+)
+
+val SectionTitleStyle = Typography.titleMedium.copy(
+    color = NightBlue,
+    fontWeight = FontWeight.Black
 )

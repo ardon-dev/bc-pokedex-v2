@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "pokeapi"
 include(":app")
+include(":domain")
+include(":data")
+include(":core")

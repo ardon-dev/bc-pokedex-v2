@@ -1,0 +1,256 @@
+package com.ardondev.pokeapi.screens.pokemonDetail
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.ardondev.domain.model.Pokemon
+import com.ardondev.domain.model.Stat
+import com.ardondev.domain.model.Type
+import com.ardondev.pokeapi.R
+import com.ardondev.pokeapi.components.AppTopBar
+import com.ardondev.pokeapi.components.PokemonCharacteristic
+import com.ardondev.pokeapi.components.PokemonContainer
+import com.ardondev.pokeapi.components.PokemonStat
+import com.ardondev.pokeapi.components.StatusError
+import com.ardondev.pokeapi.components.StatusLoading
+import com.ardondev.pokeapi.theme.BodyTextGray
+import com.ardondev.pokeapi.theme.Divider
+import com.ardondev.pokeapi.theme.NightBlue
+import com.ardondev.pokeapi.theme.SectionTitleStyle
+import com.ardondev.pokeapi.theme.SkyBlue
+import com.ardondev.pokeapi.theme.TitlePokemonNameStyle
+import com.ardondev.pokeapi.theme.TitlePokemonNumberStyle
+import com.ardondev.pokeapi.util.UiState
+import com.ardondev.pokeapi.util.getColor
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
+import java.util.Locale
+
+@Composable
+fun PokemonDetailScreen(
+    id: Int,
+    viewModel: PokemonDetailViewModel = koinViewModel(
+        parameters = { parametersOf(id) }
+    ),
+    navController: NavController
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    PokemonDetailContent(
+        uiState = uiState,
+        onBack = { navController.navigateUp() },
+        onRetry = {
+            viewModel.setUiState(UiState.Loading)
+            viewModel.getSinglePokemon()
+        }
+    )
+}
+
+@Composable
+fun PokemonDetailContent(
+    uiState: UiState<Pokemon>,
+    onBack: () -> Unit,
+    onRetry: () -> Unit
+) {
+    when (uiState) {
+        is UiState.Loading -> StatusLoading()
+        is UiState.Success -> {
+            val pokemon = uiState.data
+            val primaryColor = pokemon.types.firstOrNull()?.getColor() ?: SkyBlue
+            Scaffold(
+                topBar = {
+                    PokemonDetailTopBar(
+                        pokemonName = pokemon.name,
+                        pokemonId = pokemon.id,
+                        onBack = onBack
+                    )
+                }
+            ) { paddingValues ->
+                Box(Modifier.padding(paddingValues)) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        PokemonContainer(pokemon)
+                        Spacer(Modifier.height(16.dp))
+                        PokemonDetailCharacteristics(
+                            weight = pokemon.weight,
+                            height = pokemon.height
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        PokemonDetailDescription(pokemon.description)
+                        Spacer(Modifier.height(16.dp))
+                        PokemonDetailStats(
+                            stats = pokemon.stats,
+                            color = primaryColor
+                        )
+                    }
+                }
+            }
+        }
+
+        is UiState.Error -> StatusError(
+            error = uiState.error,
+            retryButtonText = "Reintentar",
+            onRetry = onRetry
+        )
+    }
+}
+
+@Composable
+private fun PokemonDetailCharacteristics(
+    weight: Int,
+    height: Int
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .height(IntrinsicSize.Min)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 10.dp)
+        ) {
+            PokemonCharacteristic(
+                name = "Peso",
+                value = "${weight / 10.0}Kg",
+                iconRes = R.drawable.ic_weight,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+            VerticalDivider(
+                color = Divider,
+                modifier = Modifier
+                    .fillMaxHeight()
+            )
+            PokemonCharacteristic(
+                name = "Altura",
+                value = "${height / 10.0}m",
+                iconRes = R.drawable.ic_height,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PokemonDetailDescription(description: String) {
+    Text(
+        text = description,
+        style = MaterialTheme.typography.bodyMedium.copy(
+            color = BodyTextGray
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun PokemonDetailTopBar(
+    pokemonName: String,
+    pokemonId: Int,
+    onBack: () -> Unit
+) {
+    AppTopBar(
+        title = pokemonName.replaceFirstChar { it.uppercaseChar() },
+        titleStyle = TitlePokemonNameStyle,
+        leading = {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBack,
+                    tint = NightBlue,
+                    contentDescription = null
+                )
+            }
+        },
+        trailing = {
+            Text(
+                text = String.format(Locale.getDefault(), "#%03d", pokemonId),
+                style = TitlePokemonNumberStyle,
+                modifier = Modifier
+                    .padding(end = 16.dp)
+            )
+        }
+    )
+}
+
+@Composable
+private fun PokemonDetailStats(
+    stats: List<Stat>,
+    color: Color
+) {
+    Column {
+        // Title
+        Text(
+            text = "Estadísticas",
+            style = SectionTitleStyle
+        )
+        Spacer(Modifier.size(8.dp))
+
+        // Stats
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(
+                items = stats,
+                key = { s -> s.name }
+            ) { stat ->
+                PokemonStat(
+                    label = stat.formattedName(),
+                    value = stat.baseStat,
+                    color = color
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PokemonDetailScreenPreview() {
+    val uiState: UiState<Pokemon> = UiState.Success(
+        Pokemon(
+            name = "Pikachu",
+            types = listOf(Type("Electric")),
+            height = 7,
+            weight = 900,
+            description = "Sample description",
+            stats = listOf(
+                Stat("hp", baseStat = 35)
+            )
+        )
+    )
+    PokemonDetailContent(uiState, onBack = {}, onRetry = {})
+}
