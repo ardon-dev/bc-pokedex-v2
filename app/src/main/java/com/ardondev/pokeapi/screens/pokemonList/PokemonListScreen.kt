@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -127,13 +129,13 @@ private fun PokemonList(
         modifier = modifier.fillMaxSize()
     ) {
         // Welcome text
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
         PokemonListWelcomeText(
             modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(16.dp))
 
         // Search bar
         AppSearchBar(
@@ -145,11 +147,21 @@ private fun PokemonList(
         )
 
         // List
+        val gridState = rememberLazyGridState()
+        LaunchedEffect(key1 = searchText.value) {
+            val index = list.indexOfFirst {
+                it.name.contains(searchText.value, ignoreCase = true)
+            }
+            if (index >= 0) {
+                gridState.animateScrollToItem(index)
+            }
+        }
         LazyVerticalGrid(
             columns = GridCells.Fixed(count = 2),
             contentPadding = PaddingValues(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
+            state = gridState
         ) {
             items(
                 items = list.filter {

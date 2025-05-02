@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import coil3.request.crossfade
 import coil3.request.error
 import com.ardondev.domain.model.Pokemon
 import com.ardondev.pokeapi.R
@@ -81,13 +82,14 @@ private fun PokemonCardImage(url: String) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url)
+            .crossfade(false)
             .error(R.drawable.ic_pokeball)
             .build(),
         contentDescription = null,
         onError = { e ->
             Log.d("", e.result.throwable.message.orEmpty())
         },
-        modifier = Modifier.size(100.dp)
+        modifier = Modifier.size(75.dp)
     )
 }
 
